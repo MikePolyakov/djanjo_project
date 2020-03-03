@@ -14,8 +14,7 @@ class Place(models.Model):
 class New(models.Model):
     name = models.CharField(max_length=32)
     url = models.CharField(max_length=64)
-    create = models.DateTimeField()
-    text = models.TextField()
+    date = models.DateField(null=True)
 
     def __str__(self):
         return self.name
