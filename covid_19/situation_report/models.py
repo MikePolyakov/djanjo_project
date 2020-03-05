@@ -3,12 +3,12 @@ from django.db import models
 
 # Create your models here.
 class Place(models.Model):
-    name = models.CharField(max_length=16, unique=True)
+    place_name = models.CharField(max_length=16, unique=True)
     country = models.BooleanField(default=True)
     notes = models.TextField(blank=True)
 
     def __str__(self):
-        return self.name
+        return self.place_name
 
 
 class New(models.Model):
@@ -21,16 +21,16 @@ class New(models.Model):
 
 
 class Statistic(models.Model):
-    country = models.ForeignKey(Place, on_delete=models.CASCADE)
-    date = models.DateTimeField()
-    total_cases = models.IntegerField()
-    new_cases = models.IntegerField()
-    total_deaths = models.IntegerField()
-    new_deaths = models.IntegerField()
-    total_recovered = models.IntegerField()
+    country_name = models.ForeignKey(Place, on_delete=models.CASCADE)
+    date = models.DateField(null=True)
+    total_cases = models.CharField(max_length=8, null=True)
+    new_cases = models.CharField(max_length=8, null=True)
+    total_deaths = models.CharField(max_length=8, null=True)
+    new_deaths = models.CharField(max_length=8, null=True)
+    total_recovered = models.CharField(max_length=8, null=True)
 
-    def __str__(self):
-        return self.country
+    # def __str__(self):
+    #     return self.name
 
 
 class Post(models.Model):
