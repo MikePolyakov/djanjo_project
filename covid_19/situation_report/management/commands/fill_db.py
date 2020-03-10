@@ -29,21 +29,22 @@ class Command(BaseCommand):
         first_tag = soup.find('div', class_="sf_colsIn col-md-10")
         info_tag = first_tag.find_all('div', class_="list-view")
         for each in info_tag:
-            date_tag = each.find('p', class_="sub-title")
-            date_str = str(date_tag)
-            if date_str != 'None':
-                date_tag = date_tag.text
-                if date_tag[-1] == 'h':
-                    date_tag = date_tag[:-9]
-                date = str(date_tag)
-                new_date = datetime.strptime(date, '%d %B %Y').date()
-            else:
-                new_date = None
+            if not len(each.find('div', class_="info")) == 1:
+                date_tag = each.find('p', class_="sub-title")
+                date_str = str(date_tag)
+                if date_str != 'None':
+                    date_tag = date_tag.text
+                    if date_tag[-1] == 'h':
+                        date_tag = date_tag[:-9]
+                    date = str(date_tag)
+                    new_date = datetime.strptime(date, '%d %B %Y').date()
+                else:
+                    new_date = None
 
-            title_tag = each.find('p', class_='heading text-underline').text
-            a_tag = str(each.find('a', href=True)['href'])
-            if not New.objects.filter(url=a_tag).exists():
-                New.objects.create(url=a_tag, date=new_date, name=title_tag)
+                title_tag = each.find('p', class_='heading text-underline').text
+                a_tag = str(each.find('a', href=True)['href'])
+                if not New.objects.filter(url=a_tag).exists():
+                    New.objects.create(url=a_tag, date=new_date, name=title_tag)
 
         # в бд добавляем статистику
         domain = 'https://www.worldometers.info'
