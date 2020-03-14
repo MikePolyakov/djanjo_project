@@ -11,10 +11,11 @@ class Place(models.Model):
         return self.place_name
 
 
-class New(models.Model):
+class Article(models.Model):
     name = models.CharField(max_length=32)
     url = models.CharField(max_length=64)
     date = models.DateField(null=True)
+    source = models.CharField(max_length=32)
 
     def __str__(self):
         return self.name
