@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from bs4 import BeautifulSoup
 import requests
 from datetime import datetime
-from situation_report_app.models import Article
+from situation_report_app.models import Article, Source
 
 
 class Command(BaseCommand):
@@ -35,7 +35,13 @@ class Command(BaseCommand):
                 title_tag = each.find('p', class_='heading text-underline').text
                 a_tag = str(each.find('a', href=True)['href'])
                 if not Article.objects.filter(url=a_tag).exists():
-                    Article.objects.create(url=a_tag, date=new_date, name=title_tag, source='World Health Organization')
+                    source = 'World Health Organization (WHO)'
+                    if not Source.objects.filter(name=source).exists():
+                        Source.objects.create(name=source, url='www.who.int')
+                    Article.objects.create(url=a_tag,
+                                           date=new_date,
+                                           name=title_tag,
+                                           source=Source.objects.filter(name=source).first())
                     articles_added += 1
 
         total_articles = Article.objects.all()

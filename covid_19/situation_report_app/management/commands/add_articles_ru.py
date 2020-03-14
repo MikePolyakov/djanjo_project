@@ -1,10 +1,12 @@
 from django.core.management.base import BaseCommand
-from situation_report_app.models import Article
+from situation_report_app.models import Article, Source
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 import time
 from datetime import datetime
+from tldextract import extract
+from urllib.parse import urlparse
 from selenium.webdriver.chrome.options import Options
 
 
@@ -23,6 +25,7 @@ class Command(BaseCommand):
             browser.get(url)
             button_on_page = True
             click_counter = 1
+            print('Please wait... Start to get information... Just a few clicks on button... Sorry :(')
             while button_on_page:
                 button = browser.find_element_by_class_name("show-more.js-show-more-news")
                 if button.is_displayed():
@@ -66,7 +69,18 @@ class Command(BaseCommand):
                 new_date = datetime.strptime(date, '%d.%m.%Y').date()
 
                 if not Article.objects.filter(url=href_link).exists():
-                    Article.objects.create(url=href_link, date=new_date, name=title.text, source=source)
+
+                    if not Source.objects.filter(name=source).exists():
+                        url = urlparse(href_link).netloc
+                        # tsd, td, tsu = extract(href_link)  # extracts abc, hostname, com
+                        # url = td + '.' + tsu  # joins as hostname.com
+                        Source.objects.create(name=source, url=url)
+
+                    Article.objects.create(date=new_date,
+                                           name=title.text,
+                                           source=Source.objects.filter(name=source).first(),
+                                           url=href_link)
+
                     articles_added += 1
 
             total_articles = Article.objects.all()

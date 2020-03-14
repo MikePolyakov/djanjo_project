@@ -11,11 +11,19 @@ class Place(models.Model):
         return self.place_name
 
 
+class Source(models.Model):
+    name = models.CharField(max_length=32, unique=True)
+    url = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.name
+
+
 class Article(models.Model):
     name = models.CharField(max_length=32)
     url = models.CharField(max_length=64)
     date = models.DateField(null=True)
-    source = models.CharField(max_length=32)
+    source = models.ForeignKey(Source, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

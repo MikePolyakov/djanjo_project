@@ -9,7 +9,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        # в бд добавляем статистику
+        # обновляем статистику
+        # be careful !!!
+        Statistic.objects.all().delete()
         domain = 'https://www.worldometers.info'
         url = f'{domain}/coronavirus/#countries'
         response = requests.get(url)
@@ -32,8 +34,7 @@ class Command(BaseCommand):
                         if place != 'Total:':
                             Place.objects.create(place_name=place)
                             country_added += 1
-                        else:
-                            break
+
                 elif tag_number == 2:
                     total_cases = td_one.text
                 elif tag_number == 3:
@@ -47,16 +48,16 @@ class Command(BaseCommand):
                 tag_number += 1
             print(f'{place}, total cases {total_cases}')
             today = datetime.today()
-            if not Statistic.objects.filter(country_name=Place.objects.filter(
-                    place_name=place).first(), date=today).exists():
-                Statistic.objects.create(country_name=Place.objects.filter(
-                    place_name=place).first(),
-                                         date=today,
-                                         total_cases=total_cases,
-                                         new_cases=new_cases,
-                                         total_deaths=total_death,
-                                         new_deaths=new_death,
-                                         total_recovered=total_recovered)
+            # if not Statistic.objects.filter(country_name=Place.objects.filter(
+            #         place_name=place).first(), date=today).exists():
+            Statistic.objects.create(country_name=Place.objects.filter(
+                 place_name=place).first(),
+                 date=today,
+                 total_cases=total_cases,
+                 new_cases=new_cases,
+                 total_deaths=total_death,
+                 new_deaths=new_death,
+                 total_recovered=total_recovered)
         total = Statistic.objects.all()
 
         print(f'{country_added} new countries added')
