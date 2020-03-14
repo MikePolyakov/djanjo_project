@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from situation_report.models import Article
+from situation_report_app.models import Article
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains

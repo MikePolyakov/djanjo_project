@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('situation_report', '0001_initial'),
+        ('situation_report_app', '0001_initial'),
     ]
 
     operations = [
@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
                 ('total_deaths', models.IntegerField()),
                 ('new_deaths', models.IntegerField()),
                 ('total_recovered', models.IntegerField()),
-                ('country', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='situation_report.Place')),
+                ('country', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='situation_report_app.Place')),
             ],
         ),
         migrations.DeleteModel(

@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from bs4 import BeautifulSoup
 import requests
 from datetime import datetime
-from situation_report.models import Article
+from situation_report_app.models import Article
 
 
 class Command(BaseCommand):
