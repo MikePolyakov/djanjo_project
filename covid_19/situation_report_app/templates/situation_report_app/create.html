@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Create Post
+{% endblock %}
+
+<!-- Page Header -->
+{% block page_header %}
+  <header class="masthead" style="background-image: url('#')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Create your post!</h1>
+            <span class="subheading"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+{% endblock %}
+
+{% block content %}
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <form method="post" id="PostForm">
+          {% csrf_token %}
+          {{ form.as_p}}
+          <button type="submit" class="btn btn-primary" id="sendMessageButton">Add post</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

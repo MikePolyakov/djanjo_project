@@ -13,7 +13,7 @@ class Place(models.Model):
 
 class Source(models.Model):
     name = models.CharField(max_length=32, unique=True)
-    url = models.CharField(max_length=32)
+    url = models.CharField(max_length=64)
 
     def __str__(self):
         return self.name
@@ -46,6 +46,7 @@ class Post(models.Model):
     name = models.CharField(max_length=32, unique=True)
     text = models.TextField()
     create = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='posts', null=True, blank=True)
 
     def __str__(self):
         return self.name
