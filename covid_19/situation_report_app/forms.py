@@ -10,7 +10,7 @@ class ContactForm(forms.Form):
 class PostForm(forms.Form):
     name = forms.CharField(label='post title')
     text = forms.CharField(label='write your post')
-    image = forms.ImageField(label='add photo')
+    # image = forms.ImageField(label='add photo')
 
 
 class NewsForm(forms.Form):
