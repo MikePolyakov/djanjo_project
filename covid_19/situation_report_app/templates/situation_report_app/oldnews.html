@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 
 {% block title %}
-  Articles
+  Old news
 {% endblock %}
 
 <!-- Page Header -->
 {% block page_header %}
-  <header class="masthead" style="background-image: url('')">
+  <header class="masthead" style="background-image: url('#')">
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="site-heading">
-            <h1>News</h1>
-            <span class="subheading">from all the world</span>
+            <h1>Old News</h1>
+            <span class="subheading"></span>
           </div>
         </div>
       </div>
@@ -25,7 +25,7 @@
 {% block content %}
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        {% for item in articles %}
+        {% for item in oldnews %}
         <div class="post-preview">
           <a href="{{item.url}}">
             <h2 class="post-title">
@@ -41,7 +41,7 @@
 
         <!-- Pager -->
         <div class="clearfix">
-          <a class="btn btn-primary float-right" href="{% url 'app_page:oldnews' %}">Old news &rarr;</a>
+<!--          <a class="btn btn-primary float-right" href="#">Older Articles &rarr;</a>-->
         </div>
       </div>
     </div>

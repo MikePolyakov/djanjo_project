@@ -5,17 +5,20 @@
 {% endblock %}
 
 {% block update_button %}
-      <a class="navbar-brand" href="page:index">Update statistics</a>
+ <form method="get">
+     {% csrf_token %}
+    <a class="navbar-brand" href="{% url 'app_page:index' %}">UPDATE</a>
       <button class="navbar-toggler navbar-toggler-right"
-              type="button"
+              type="submit"
               data-toggle="collapse"
               data-target="#navbarResponsive"
               aria-controls="navbarResponsive"
               aria-expanded="false"
               aria-label="Toggle navigation">
-        Menu
         <i class="fas fa-bars"></i>
+
       </button>
+ </form>
 {% endblock %}
 
 <!-- Page Header -->
@@ -27,7 +30,9 @@
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="site-heading">
             <h1>Coronavirus COVID-19</h1>
-            <span class="subheading">{{ date }}</span>
+              {% if show_date %}
+                <span class="subheading">{{ show_date }}</span>
+              {% endif %}
           </div>
         </div>
       </div>

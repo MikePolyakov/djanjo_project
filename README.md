@@ -1,10 +1,6 @@
 
 Coronavirus disease 2019 (COVID-19) situation report
 
-1. country names added to db
-2. situation report news added to db
-3. country statistic (total, new cases, deaths, recovered) added to db
-
-todo list:
-
-4. posts from users
+1. To fill DB run 3 Management commands
+2. Main page needs to be refreshed after click on "Update" button
+3. Links don't function on Source page  
