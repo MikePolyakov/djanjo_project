@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Main page
+{% endblock %}
+
+{% block update_button %}
+ <form method="get">
+     {% csrf_token %}
+    <a class="navbar-brand" href="{% url 'app_page:index' %}">UPDATE</a>
+      <button class="navbar-toggler navbar-toggler-right"
+              type="submit"
+              data-toggle="collapse"
+              data-target="#navbarResponsive"
+              aria-controls="navbarResponsive"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+
+      </button>
+ </form>
+{% endblock %}
+
+<!-- Page Header -->
+{% block page_header %}
+  <header class="masthead" style="background-image: url('https://www.cdc.gov/coronavirus/2019-ncov/images/outbreak-coronavirus-world.png')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Coronavirus COVID-19</h1>
+              {% if show_date %}
+                <span class="subheading">{{ show_date }}</span>
+              {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+{% endblock %}
+
+<!-- Main Content -->
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+
+            <table class="table">
+                    <tr>
+                        <th>Country</th>
+                        <th>Total cases</th>
+                        <th>New cases</th>
+                        <th>Total deaths</th>
+                        <th>New deaths</th>
+                        <th>Recovered</th>
+                    </tr>
+                    {% for item in statistics %}
+                    <tr>
+                        <td>{{item.country_name}}</td>
+                        <td> {{item.total_cases}}</td>
+                        <td>{{item.new_cases}}</td>
+                        <td>{{item.total_deaths}}</td>
+                        <td> {{item.new_deaths}}</td>
+                        <td>{{item.total_recovered}}</td>
+                    </tr>
+                    {% endfor %}
+            </table>
+
+      </div>
+    </div>
+  </div>
+{% endblock %}

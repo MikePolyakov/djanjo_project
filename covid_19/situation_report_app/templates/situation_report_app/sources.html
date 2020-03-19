@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Sources
+{% endblock %}
+
+<!-- Page Header -->
+{% block page_header %}
+  <header class="masthead" style="background-image: url('')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Our sources</h1>
+            <span class="subheading">Thanks</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+{% endblock %}
+
+<!-- Main Content -->
+{% block content %}
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        {% for each in sources %}
+        <div class="post-preview">
+          <a href="{{each.url}}">
+            <h3 class="post-subtitle">
+              {{each.name}}
+            </h3>
+          </a>
+          <p class="post-meta">web address:
+            <a href="{{each.url}}">{{each.url}}</a>
+          </p>
+        </div>
+        <hr>
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Posts
+{% endblock %}
+
+<!-- Page Header -->
+{% block page_header %}
+  <header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Posts</h1>
+            <span class="subheading">from readers like you</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        {% for item in posts %}
+        <div class="post-preview">
+          <a href="{% url 'app_page:post' id=item.id %}">
+            <h2 class="post-title">
+              {{item.name}}
+            </h2>
+            <h3 class="post-subtitle"></h3>
+          </a>
+          <p class="post-meta">
+            Posted on {{item.create}}
+           </p>
+        </div>
+        <hr>
+        {% endfor %}
+
+        <!-- Pager -->
+        <div class="clearfix">
+          <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

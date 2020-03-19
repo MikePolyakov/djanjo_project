@@ -25,7 +25,7 @@ class Command(BaseCommand):
             browser.get(url)
             button_on_page = True
             click_counter = 1
-            print('Please wait... Start to get information... Just a few clicks on button... Sorry :(')
+            print('Please wait... Start to get information... Just a few clicks on button...')
             while button_on_page:
                 button = browser.find_element_by_class_name("show-more.js-show-more-news")
                 if button.is_displayed():
@@ -69,21 +69,21 @@ class Command(BaseCommand):
                 new_date = datetime.strptime(date, '%d.%m.%Y').date()
 
                 if not Article.objects.filter(url=href_link).exists():
-
-                    if not Source.objects.filter(name=source).exists():
-                        url = urlparse(href_link).netloc
-                        # tsd, td, tsu = extract(href_link)  # extracts abc, hostname, com
-                        # url = td + '.' + tsu  # joins as hostname.com
-                        Source.objects.create(name=source, url=url)
+                    url_source = urlparse(href_link).netloc
+                    # tsd, td, tsu = extract(href_link)  # extracts abc, hostname, com
+                    # url = td + '.' + tsu  # joins as hostname.com
+                    if not Source.objects.filter(url=url_source).exists():
+                        Source.objects.create(name=source, url=url_source)
 
                     Article.objects.create(date=new_date,
                                            name=title.text,
-                                           source=Source.objects.filter(name=source).first(),
+                                           source=Source.objects.filter(url=url_source).first(),
                                            url=href_link)
 
                     articles_added += 1
 
             total_articles = Article.objects.all()
+            print(type(total_articles))
             print(f'added {articles_added}')
             print(f'total number of articles = {len(total_articles)}')
 
