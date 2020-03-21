@@ -27,7 +27,7 @@ class Command(BaseCommand):
                     symbol = 'I'
                     position = date_tag.find(symbol, 0)
                     if position != -1:
-                        date_tag = date_tag[0:position-1]
+                        date_tag = date_tag[0:position - 1]
                     date = str(date_tag)
                     new_date = datetime.strptime(date, '%d %B %Y').date()
                 else:

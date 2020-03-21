@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Create Post
+{% endblock %}
+
+<!-- Page Header -->
+{% block page_header %}
+  <header class="masthead" style="background-image: url('#')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Create your post!</h1>
+            <span class="subheading"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+{% endblock %}
+
+{% block content %}
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <form method="post" enctype="multipart/form-data" >
+          {% csrf_token %}
+<!--          {{ form.as_pp}}-->
+<!--          comment for {}-->
+          {# form.as_p #}
+          {% for field in form %}
+            <p>{{ field.label_tag }}</p>
+              {% for error in fields.errors %}
+                <span class="subheading">Please make corrections</span>
+              {% endfor %}
+               {{ field }}
+          {% endfor %}
+          <button type="submit" class="btn btn-primary" >Save post</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

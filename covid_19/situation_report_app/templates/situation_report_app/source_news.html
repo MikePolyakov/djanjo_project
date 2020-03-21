@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-  Old news
+Source News
 {% endblock %}
 
 <!-- Page Header -->
@@ -12,8 +12,12 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="site-heading">
-            <h1>Old News</h1>
-            <span class="subheading"></span>
+            <h3>all news that we got from</h3>
+            <h1>{{ source_name }}</h1>
+            <span class="subheading">
+
+              web: <a href=http://{{source_url}}> {{source_url}} </a>
+            </span>
           </div>
         </div>
       </div>
@@ -21,11 +25,13 @@
   </header>
 {% endblock %}
 
+
 <!-- Main Content -->
 {% block content %}
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        {% for item in oldnews %}
+
+        {% for item in object_list %}
         <div class="post-preview">
           <a href="{{item.url}}">
             <h2 class="post-title">
@@ -33,7 +39,7 @@
             </h2>
           </a>
           <p class="post-meta">Posted by
-            <a href="{{item.url}}">{{item.source}}</a>
+            <a href=http://{{item.source.url}}>{{item.source}}</a>
             {{item.date}}</p>
         </div>
         <hr>
@@ -41,9 +47,10 @@
 
         <!-- Pager -->
         <div class="clearfix">
-<!--          <a class="btn btn-primary float-right" href="#">Older Articles &rarr;</a>-->
+<!--          <a class="btn btn-primary float-right" href="#">Old news &rarr;</a>-->
         </div>
       </div>
     </div>
   </div>
 {% endblock %}
+

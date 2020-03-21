@@ -4,6 +4,16 @@
   Articles
 {% endblock %}
 
+{% block update_button %}
+<form method="post">
+     {% csrf_token %}
+      <button class="btn btn-danger"
+              type="submit">
+          UPDATE
+      </button>
+ </form>
+{% endblock %}
+
 <!-- Page Header -->
 {% block page_header %}
   <header class="masthead" style="background-image: url('')">
@@ -25,7 +35,9 @@
 {% block content %}
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        {% for item in articles %}
+        <a href="{% url 'covid_19:add_article' %}">ADD NEWS</a>
+         <hr>
+        {% for item in object_list %}
         <div class="post-preview">
           <a href="{{item.url}}">
             <h2 class="post-title">
@@ -33,7 +45,7 @@
             </h2>
           </a>
           <p class="post-meta">Posted by
-            <a href="{{item.url}}">{{item.source}}</a>
+            <a href=http://{{item.source.url}}>{{item.source}}</a>
             {{item.date}}</p>
         </div>
         <hr>
@@ -41,7 +53,7 @@
 
         <!-- Pager -->
         <div class="clearfix">
-          <a class="btn btn-primary float-right" href="{% url 'app_page:oldnews' %}">Old news &rarr;</a>
+<!--          <a class="btn btn-primary float-right" href="#">Old news &rarr;</a>-->
         </div>
       </div>
     </div>

@@ -4,13 +4,14 @@ from situation_report_app import views
 app_name = 'situation_report_app'
 
 urlpatterns = [
-    path('', views.main_view, name='index'),
-    path('articles/', views.articles, name='articles'),
-    path('add_article/', views.add_article, name='add_article'),
-    path('oldnews/', views.oldnews, name='oldnews'),
-    path('posts/', views.posts, name='posts'),
-    path('create/', views.create, name='create'),
-    path('post/<int:id>/', views.post, name='post'),
-    path('sources/', views.sources, name='sources'),
+    path('', views.StatisticListView.as_view(), name='index'),
+    path('news/', views.NewsListView.as_view(), name='news'),
+    path('add_article/', views.ArticleCreateView.as_view(), name='add_article'),
+    path('posts/', views.PostListView.as_view(), name='posts'),
+    path('post_detail/<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
+    path('create_post/', views.PostCreateView.as_view(), name='create_post'),
+    path('sources/', views.SourceListView.as_view(), name='sources'),
     path('contact/', views.contact, name='contact'),
+    path('add_source/', views.SourceCreateView.as_view(), name='add_source'),
+    path('source_news/<int:pk>/', views.SourceNewsListView.as_view(), name='source_news'),
 ]

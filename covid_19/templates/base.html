@@ -9,6 +9,10 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
+  <!--  favicon-->
+  <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+
+  <!--  block title-->
   <title>{% block title %}{% endblock %}</title>
 
   <!-- Bootstrap core CSS -->
@@ -33,25 +37,25 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'app_page:index' %}">Home</a>
+            <a class="nav-link" href="{% url 'covid_19:index' %}">Home</a>
           </li>
            <li class="nav-item">
-            <a class="nav-link" href="{% url 'app_page:articles' %}">News</a>
+            <a class="nav-link" href="{% url 'covid_19:news' %}">News</a>
           </li>
            <li class="nav-item">
-            <a class="nav-link" href="{% url 'app_page:add_article' %}">Add news</a>
+            <a class="nav-link" href="{% url 'covid_19:add_article' %}">Add news</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'app_page:posts' %}">Posts</a>
+            <a class="nav-link" href="{% url 'covid_19:posts' %}">Posts</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'app_page:create' %}">Create Post</a>
+            <a class="nav-link" href="{% url 'covid_19:create_post' %}">Create Post</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'app_page:sources' %}">Sources</a>
+            <a class="nav-link" href="{% url 'covid_19:sources' %}">Sources</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'app_page:contact' %}">Contact us</a>
+            <a class="nav-link" href="{% url 'covid_19:contact' %}">Contact us</a>
           </li>
         </ul>
       </div>

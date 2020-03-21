@@ -12,8 +12,8 @@ Post
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="site-heading">
-            <h1>{{ post.name }}</h1>
-            <span class="subheading">added on {{post.create}}</span>
+            <h1>{{ object.name }}</h1>
+            <span class="subheading">added on {{object.create}}</span>
           </div>
         </div>
       </div>
@@ -27,10 +27,10 @@ Post
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-            {% if post.image %}
+            {% if object.image %}
               <img src="{{post.image.url}}" width=100%>
             {% endif %}
-          {{post.text}}
+          {{object.text}}
         </div>
       </div>
     </div>

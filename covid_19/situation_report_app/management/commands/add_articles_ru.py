@@ -90,5 +90,3 @@ class Command(BaseCommand):
         finally:
             # закрываем браузер после всех манипуляций
             browser.quit()
-
-
