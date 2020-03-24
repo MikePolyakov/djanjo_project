@@ -35,11 +35,15 @@
           </a>
           <p class="post-meta">
             Posted on {{item.create}}
+            {% if item.has_image %}
+              with image
+            {% else %}
+              without image
+            {% endif %}
            </p>
         </div>
         <hr>
         {% endfor %}
-
 
         <!-- Pager -->
         <div class="clearfix">
