@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+Post
+{% endblock %}
+
+<!-- Page Header -->
+{% block page_header %}
+  <header class="masthead" style="background-image: url('#')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>{{ post.name }}</h1>
+            <span class="subheading">added on {{post.create}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+{% endblock %}
+
+{% block content %}
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            {% if post.image %}
+              <img src="{{post.image.url}}" width=100%>
+            {% endif %}
+          {{post.text}}
+        </div>
+      </div>
+    </div>
+  </article>
+
+{% endblock %}

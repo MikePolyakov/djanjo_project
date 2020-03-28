@@ -1,4 +1,6 @@
 from django.db import models
+# from django.contrib.auth.models import User
+from users_app.models import AppUser
 
 
 # abstract class
@@ -11,9 +13,13 @@ class Date(models.Model):
 
 # Create your models here.
 class Place(models.Model):
-    place_name = models.CharField(max_length=16, unique=True)
-    country = models.BooleanField(default=True)
-    notes = models.TextField(blank=True)
+    place_name = models.CharField(max_length=16, unique=True, verbose_name='название страны или места')
+    country = models.BooleanField(default=True, verbose_name='отметка, если страна')
+    notes = models.TextField(blank=True, verbose_name='примечания')
+
+    class Meta:
+        verbose_name = 'страна или место'
+        verbose_name_plural = 'places'
 
     def __str__(self):
         return self.place_name
@@ -53,6 +59,8 @@ class Post(models.Model):
     text = models.TextField()
     create = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='posts', null=True, blank=True)
+    # user = models.ForeignKey(User)
+    user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

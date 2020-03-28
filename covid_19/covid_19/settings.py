@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'situation_report_app'
+    'situation_report_app',
+    'users_app'
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,14 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 # EMAIL_FILE_PATH = '/tmp/emails'
+
+# Переназначение модели пользователя
+AUTH_USER_MODEL = 'users_app.AppUser'
+
+# Переходы
+# Куда идти после логина
+LOGIN_REDIRECT_URL = '/posts/'
+# Куда идти после выхода
+LOGOUT_REDIRECT_URL = '/'
+# Куда идти на логин
+LOGIN_URL = '/users/login/'

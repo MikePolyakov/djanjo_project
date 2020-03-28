@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
 from django.urls import reverse, reverse_lazy
 from django.core.mail import send_mail
 from django.views.generic import ListView, DetailView, CreateView
@@ -74,9 +75,15 @@ class SourceNewsListView(ListView):
 
 
 # DetailView для поста
-class PostDetailView(DetailView):
+class PostDetailView(UserPassesTestMixin, DetailView):
     model = Post
     template_name = 'situation_report_app/post_detail.html'
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def handle_no_permission(self):
+        return redirect('users:login')
 
     def get(self, request, *args, **kwargs):
         self.post_id = kwargs['pk']
@@ -103,8 +110,9 @@ class ArticleCreateView(CreateView):
 
 
 # добавление поста
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     fields = '__all__'
+    fields = ('name', 'text', 'image')
     model = Post
     success_url = reverse_lazy('covid_19:posts')
     template_name = 'situation_report_app/create_post.html'
@@ -113,6 +121,7 @@ class PostCreateView(CreateView):
         return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
+        form.instance.user = self.request.user
         return super().form_valid(form)
 
 
