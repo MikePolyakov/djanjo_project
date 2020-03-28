@@ -1,6 +1,14 @@
 from django.db import models
 
 
+# abstract class
+class Date(models.Model):
+    date = models.DateField(null=True)
+
+    class Meta:
+        abstract = True
+
+
 # Create your models here.
 class Place(models.Model):
     place_name = models.CharField(max_length=16, unique=True)
@@ -19,19 +27,17 @@ class Source(models.Model):
         return self.name
 
 
-class Article(models.Model):
+class Article(Date):
     name = models.CharField(max_length=32)
     url = models.CharField(max_length=64)
-    date = models.DateField(null=True)
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
 
-class Statistic(models.Model):
+class Statistic(Date):
     country_name = models.ForeignKey(Place, on_delete=models.CASCADE)
-    date = models.DateField(null=True)
     total_cases = models.CharField(max_length=8, null=True)
     new_cases = models.CharField(max_length=8, null=True)
     total_deaths = models.CharField(max_length=8, null=True)

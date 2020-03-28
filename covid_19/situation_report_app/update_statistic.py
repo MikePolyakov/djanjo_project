@@ -4,7 +4,7 @@ from datetime import datetime
 from situation_report_app.models import Statistic, Place
 
 
-def update():
+def update_statistic():
 
     # обновляем статистику
     # be careful !!!
@@ -50,12 +50,12 @@ def update():
         #         place_name=place).first(), date=today).exists():
         Statistic.objects.create(country_name=Place.objects.filter(
              place_name=place).first(),
-             date=today,
-             total_cases=total_cases,
-             new_cases=new_cases,
-             total_deaths=total_death,
-             new_deaths=new_death,
-             total_recovered=total_recovered)
+                                      date=today,
+                                      total_cases=total_cases,
+                                      new_cases=new_cases,
+                                      total_deaths=total_death,
+                                      new_deaths=new_death,
+                                      total_recovered=total_recovered)
     total = Statistic.objects.all()
 
     print(f'{country_added} new countries added')

@@ -14,6 +14,11 @@
           <div class="site-heading">
             <h1>Our sources</h1>
             <span class="subheading">Thanks</span>
+               <hr>
+                <a class="nav-link" href="{% url 'covid_19:add_source' %}">
+                   <button type="submit" class="btn btn-primary">Add source</button>
+                </a>
+              <hr>
           </div>
         </div>
       </div>
@@ -23,23 +28,23 @@
 
 <!-- Main Content -->
 {% block content %}
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        {% for each in sources %}
-        <div class="post-preview">
-          <a href="{{each.url}}">
-            <h3 class="post-subtitle">
-              {{each.name}}
-            </h3>
-          </a>
-          <p class="post-meta">web address:
-            <a href="{{each.url}}">{{each.url}}</a>
-          </p>
-        </div>
-        <hr>
-        {% endfor %}
+  <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          {% for item in object_list %}
+          <div class="post-preview">
+            <a href="{% url 'covid_19:source_news' pk=item.pk %}">
 
-      </div>
-    </div>
+              <h3 class="post-subtitle">
+                {{item.name}}
+              </h3>
+            </a>
+            <p class="post-meta">web address:
+                <a href=http://{{item.url}}>{{item.url}}</a>
+            </p>
+          </div>
+          <hr>
+          {% endfor %}
+        </div>
   </div>
+
 {% endblock %}
