@@ -42,34 +42,24 @@
            <li class="nav-item">
             <a class="nav-link" href="{% url 'covid_19:news' %}">News</a>
           </li>
-           <li class="nav-item">
-            <a class="nav-link" href="{% url 'covid_19:add_article' %}">Add news</a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'covid_19:posts' %}">Posts</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'covid_19:create_post' %}">Create Post</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="{% url 'covid_19:sources' %}">Sources</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'covid_19:contact' %}">Contact us</a>
-          </li>
           {% if user.is_authenticated %}
-              <li class="nav-item" style="color:blue" >
-                <h6 class=nav-link">{{user.username}}</h6>
-              </li>
-              <li class="nav-item">
+            <li class="nav-item"  >
+                <a class="nav-link" style="color:blue" >user: {{user.username}}</a>
+                <a class="nav-link" href="{% url 'covid_19:create_post' %}">Create Post</a>
+                <a class="nav-link" href="{% url 'covid_19:add_article' %}">Add news</a>
+                <a class="nav-link" href="{% url 'users:pass_change' %}">Change Password</a>
+                <a class="nav-link" href="{% url 'covid_19:contact' %}">Contact us</a>
                 <a class="nav-link" href="{% url 'users:logout' %}">Logout</a>
-              </li>
+            </li>
           {% else %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'users:login' %}">Login</a>
-              </li>
-               <li class="nav-item">
-                <a class="nav-link" href="{% url 'users:register' %}">Registration</a>
+                <a class="nav-link" href="{% url 'users:login' %}">Log in/Sign up</a>
               </li>
           {% endif %}
         </ul>

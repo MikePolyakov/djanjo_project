@@ -3,7 +3,7 @@ from django.db import models
 from users_app.models import AppUser
 
 
-# abstract class
+# abstract class Date (changed class Article(Date): and class Statistic(Date):)
 class Date(models.Model):
     date = models.DateField(null=True)
 
@@ -61,6 +61,9 @@ class Post(models.Model):
     image = models.ImageField(upload_to='posts', null=True, blank=True)
     # user = models.ForeignKey(User)
     user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+
+    def has_image(self):
+        return bool(self.image)
 
     def __str__(self):
         return self.name
