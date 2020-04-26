@@ -1,13 +1,10 @@
 from django.core.management.base import BaseCommand
 from situation_report_app.models import Article, Source
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
-import time
 from datetime import datetime
 from tldextract import extract
 from urllib.parse import urlparse
-from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup
+import requests
 
 
 class Command(BaseCommand):
@@ -16,77 +13,69 @@ class Command(BaseCommand):
 
         # в бд добавляем новости
         domain = 'https://coronavirus-monitor.ru'
-        url = f'{domain}/novosti/'
+        url_news = f'{domain}/ru/novosti/?page='
+        print(url_news)
 
-        try:
-            options = Options()
-            options.headless = True
-            browser = webdriver.Chrome(chrome_options=options)
-            browser.get(url)
-            button_on_page = True
-            click_counter = 1
-            print('Please wait... Start to get information... Just a few clicks on button...')
-            while button_on_page:
-                button = browser.find_element_by_class_name("show-more.js-show-more-news")
-                if button.is_displayed():
-                    x = int(browser.find_element_by_class_name("show-more.js-show-more-news").location['x'])
-                    y = int(browser.find_element_by_class_name("show-more.js-show-more-news").location['y'])
-                    xy = browser.find_element_by_class_name("show-more.js-show-more-news").location
+        next_button = True
+        print('Please wait... Start to get information...')
+        page_counter = 1
+        articles_added = 0
+        i = 1
 
-                    width = int(browser.find_element_by_class_name("show-more.js-show-more-news").size['width'])
-                    height = int(browser.find_element_by_class_name("show-more.js-show-more-news").size['height'])
+        while next_button:
+            url = f'{url_news}{page_counter}'
 
-                    action = webdriver.common.action_chains.ActionChains(browser)
-                    new_x = width / 2
-                    new_y = height / 2
+            page_response = requests.get(url)
+            page_soup = BeautifulSoup(page_response.text, 'html.parser')
+            next_tag = page_soup.find('li', class_='next disabled')
 
-                    action.move_to_element_with_offset(button, new_x, new_y)
-                    action.click()
-                    action.perform()
-                    time.sleep(1)
-                    print(f'#{click_counter} click on button')
-                    click_counter += 1
+            if next_tag is not None:
+                next_button = False
 
-                else:
-                    button_on_page = False
+            first_tag = page_soup.find("div", class_="p-about")
+            articles = first_tag.find_all('div', class_="col-md-4 news-element")
 
-            article = browser.find_elements_by_class_name('article')
-            i = 1
-            articles_added = 0
-            for each in article:
-                title = each.find_element_by_class_name('title-article')
-                date_tag = each.find_element_by_class_name('date')
-                date = date_tag.text
-                date = date[0:6]
-                date = date + '2020'
-                link = each.find_element_by_class_name('source')
-                source = link.text
-                href_link = link.get_attribute('href')
-                print(href_link)
-                print(i, date, source, title.text)
+            for each in articles:
+
+                a_tag = each.find('a')
+                href_url = a_tag.get('href')
+                article_url = f'{domain}{href_url}'
+                article_response = requests.get(article_url)
+                article_soup = BeautifulSoup(article_response.text, 'html.parser')
+                article_page = article_soup.find('div', class_='content')
+                title = article_page.find('h1').text
+                print(f'article # {i} (total will be limited to 12)')
                 i += 1
-                date = str(date)
-                new_date = datetime.strptime(date, '%d.%m.%Y').date()
+                print(title)
+                article_date = str(article_soup.find('span').text[0:10])
+                date = datetime.strptime(article_date, '%d.%m.%Y').date()
+                print(date)
+                if article_soup.find('div', class_='col-md-8').find('a') is not None:
+
+                    href_link = article_soup.find('div', class_='col-md-8').find('a').get('href')
+                    print(href_link)
 
                 if not Article.objects.filter(url=href_link).exists():
                     url_source = urlparse(href_link).netloc
-                    # tsd, td, tsu = extract(href_link)  # extracts abc, hostname, com
-                    # url = td + '.' + tsu  # joins as hostname.com
+                    tsd, td, tsu = extract(href_link)  # extracts abc, hostname, com
+                    source = td + '.' + tsu  # joins as hostname.com
                     if not Source.objects.filter(url=url_source).exists():
                         Source.objects.create(name=source, url=url_source)
 
-                    Article.objects.create(date=new_date,
-                                           name=title.text,
+                    Article.objects.create(date=date,
+                                           name=title,
                                            source=Source.objects.filter(url=url_source).first(),
                                            url=href_link)
 
                     articles_added += 1
 
-            total_articles = Article.objects.all()
-            print(type(total_articles))
-            print(f'added {articles_added}')
-            print(f'total number of articles = {len(total_articles)}')
+            page_counter += 1
 
-        finally:
-            # закрываем браузер после всех манипуляций
-            browser.quit()
+            # artificial limit 12 articles
+            if page_counter > 1:
+                next_button = False
+            # artificial limit 12 articles
+
+        total_articles = Article.objects.all()
+        print(f'added {articles_added}')
+        print(f'total number of articles = {len(total_articles)}')
