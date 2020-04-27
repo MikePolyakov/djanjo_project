@@ -17,7 +17,8 @@ def update_articles():
         browser = webdriver.Chrome(chrome_options=options)
         browser.get(url)
 
-        article = browser.find_elements_by_class_name('article')
+        # article = browser.find_elements_by_class_name('article')
+        article = browser.find_elements_by_class_name('row news')
         i = 1
         articles_added = 0
         for each in article:

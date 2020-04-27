@@ -22,11 +22,11 @@ class PostTestCase(TestCase):
                                             user=user)
 
     def test_has_image(self):
-        print('test_has_image #1')
+        print('test_has_image')
         self.assertFalse(self.post.has_image())
 
     def test_str(self):
-        print('test_str #2')
+        print('test_str')
         self.assertEqual(str(self.post_str), 'test_post_str')
 
 
@@ -46,11 +46,11 @@ class PostTestCaseFaker(TestCase):
         # print(self.post.name)
 
     def test_has_image(self):
-        print('test_has_image #3')
+        print('test_has_image')
         self.assertFalse(self.post.has_image())
 
     def test_str(self):
-        print('test_str #4')
+        print('test_str')
         self.assertEqual(str(self.post_str), 'test_post_str')
 
 
@@ -61,11 +61,11 @@ class PostTestCaseMixer(TestCase):
         self.post_str = mixer.blend(Post, name='test_post_str')
 
     def test_has_image(self):
-        print('test_has_image #5')
+        print('test_has_image')
         self.assertFalse(self.post.has_image())
 
     def test_str(self):
-        print('test_str #6')
+        print('test_str')
         self.assertEqual(str(self.post_str), 'test_post_str')
 
 
@@ -75,7 +75,7 @@ class ArticleTestCaseMixer(TestCase):
         self.article_str = mixer.blend(Article, name='test_article')
 
     def test_str(self):
-        print('test_str #7')
+        print('test_str')
         self.assertEqual(str(self.article_str), 'test_article')
 
 
@@ -85,7 +85,7 @@ class SourceTestCaseMixer(TestCase):
         self.source_str = mixer.blend(Source, name='test_source')
 
     def test_str(self):
-        print('test_str #8')
+        print('test_str')
         self.assertEqual(str(self.source_str), 'test_source')
 
 
@@ -95,5 +95,5 @@ class PlaceTestCaseMixer(TestCase):
         self.place_str = mixer.blend(Place, place_name='test_place')
 
     def test_str(self):
-        print('test_str #9')
+        print('test_str')
         self.assertEqual(str(self.place_str), 'test_place')

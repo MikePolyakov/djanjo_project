@@ -30,7 +30,7 @@ Post
             {% if object.image %}
               <img src="{{post.image.url}}" width=100%>
             {% endif %}
-          {{object.text}}
+          {{object.text | safe}}
         </div>
       </div>
     </div>

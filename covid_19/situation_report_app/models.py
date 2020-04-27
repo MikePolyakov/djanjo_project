@@ -3,6 +3,21 @@ from django.db import models
 from users_app.models import AppUser
 
 
+# abstract class
+class IsApprovedMixin(models.Model):
+    is_approved = models.BooleanField(default=False)
+
+    class Meta:
+        abstract = True
+
+
+class ApprovedManager(models.Manager):
+
+    def get_queryset(self):
+        all_objects = super().get_queryset()
+        return all_objects.filter(is_approved=True)
+
+
 # abstract class Date (changed class Article(Date): and class Statistic(Date):)
 class Date(models.Model):
     date = models.DateField(null=True)
@@ -54,7 +69,9 @@ class Statistic(Date):
     #     return self.name
 
 
-class Post(models.Model):
+class Post(IsApprovedMixin):
+    objects = models.Manager()
+    approved_objects = ApprovedManager()
     name = models.CharField(max_length=32, unique=True)
     text = models.TextField()
     create = models.DateTimeField(auto_now_add=True)
