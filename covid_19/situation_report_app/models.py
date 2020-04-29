@@ -50,7 +50,7 @@ class Source(models.Model):
 
 class Article(Date):
     name = models.CharField(max_length=32)
-    url = models.CharField(max_length=64)
+    url = models.CharField(max_length=128)
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
 
     def __str__(self):

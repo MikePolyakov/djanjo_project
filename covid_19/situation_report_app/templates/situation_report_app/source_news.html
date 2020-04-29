@@ -17,6 +17,7 @@ Source News
             <span class="subheading">
 
               web: <a href=http://{{source_url}}> {{source_url}} </a>
+
             </span>
           </div>
         </div>
@@ -32,6 +33,8 @@ Source News
       <div class="col-lg-8 col-md-10 mx-auto">
 
         {% for item in object_list %}
+        {% with item_source=item.source %}
+
         <div class="post-preview">
           <a href="{{item.url}}">
             <h2 class="post-title">
@@ -39,10 +42,11 @@ Source News
             </h2>
           </a>
           <p class="post-meta">Posted by
-            <a href=http://{{item.source.url}}>{{item.source}}</a>
+            <a href=http://{{item_source.url}}>{{item_source}}</a>
             {{item.date}}</p>
         </div>
         <hr>
+        {% endwith %}
         {% endfor %}
 
         <!-- Pager -->
