@@ -1,50 +1,55 @@
 {% extends "base.html" %}
 
 {% block title %}
-  Sources
+Sources
 {% endblock %}
 
 <!-- Page Header -->
 {% block page_header %}
-  <header class="masthead" style="background-image: url('')">
+<header class="masthead" style="background-image: url('')">
     <div class="overlay"></div>
     <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="site-heading">
-            <h1>Our sources</h1>
-            <span class="subheading">Thanks</span>
-               <hr>
-                <a class="nav-link" href="{% url 'covid_19:add_source' %}">
-                   <button type="submit" class="btn btn-primary">Add source</button>
-                </a>
-              <hr>
-          </div>
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>Our sources</h1>
+                    <span class="subheading">Thanks</span>
+                    <hr>
+                    <a class="nav-link" href="{% url 'covid_19:add_source' %}">
+                        <button class="btn btn-primary" type="submit">Add source</button>
+                    </a>
+                    <hr>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </header>
+</header>
 {% endblock %}
 
 <!-- Main Content -->
 {% block content %}
-  <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          {% for item in object_list %}
-          <div class="post-preview">
+<div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+
+        {% for item in object_list %}
+        {% with item_url=item.url %}
+        <div class="post-preview">
             <a href="{% url 'covid_19:source_news' pk=item.pk %}">
 
-              <h3 class="post-subtitle">
-                {{item.name}}
-              </h3>
+                <h3 class="post-subtitle">
+                    {{item.name}}
+                </h3>
             </a>
             <p class="post-meta">web address:
-                <a href=http://{{item.url}}>{{item.url}}</a>
+
+                <a href=http://{{item_url}}>{{item_url}}</a>
             </p>
-          </div>
-          <hr>
-          {% endfor %}
-          <div class="pagination">
+        </div>
+        <hr>
+        {% endwith %}
+        {% endfor %}
+
+        <div class="pagination">
                 <span class="step-links">
                     {% if page_obj.has_previous %}
                         <a href="?page=1">&laquo;first </a>
@@ -60,26 +65,10 @@
                         <a href="?page={{ page_obj.paginator.num_pages }}"> last &raquo;</a>
                     {% endif %}
                 </span>
-         </div>
         </div>
 
-  </div>
+    </div>
+</div>
 {% endblock %}
 
- <div class="pagination">
-                <span class="step-links">
-                    {% if page_obj.has_previous %}
-                        <a href="?page=1">&laquo;first </a>
-                        <a href="?page={{ page_obj.previous_page_number }}">    previous </a>
-                    {% endif %}
 
-                    <span class="current">
-                        _____________ {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} _____________
-                    </span>
-
-                    {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}"> next   </a>
-                        <a href="?page={{ page_obj.paginator.num_pages }}"> last &raquo;</a>
-                    {% endif %}
-                </span>
- </div>

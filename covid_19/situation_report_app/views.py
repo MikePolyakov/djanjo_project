@@ -11,34 +11,37 @@ from situation_report_app.update_statistic import update_statistic
 from situation_report_app.update_articles_ru import update_articles
 import datetime
 
+from django.utils.functional import cached_property
+
 
 # ListView # все данные с кнопкой обновления
 class StatisticListView(ListView):
-    model = Statistic
+    # model = Statistic
+    queryset = Statistic.objects.select_related('country_name').all()
     template_name = 'situation_report_app/index.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if Statistic.objects.first():
-            context['updated_on'] = Statistic.objects.first().date
+        queryset = Statistic.objects.select_related('country_name').first()
+        if queryset:
+            context['updated_on'] = queryset.date
         else:
             context['updated_on'] = datetime.date.today()
-
         return context
 
-    def post(self, request):
-        update_statistic()
-        statistic = Statistic.objects.all()
-        updated_on = Statistic.objects.first().date
-
-        return render(request, self.template_name, context={'object_list': statistic,
-                                                            'updated_on': updated_on,
-                                                            })
+    # def post(self, request):
+    #     update_statistic()
+    #     statistic = Statistic.objects.all()
+    #     updated_on = Statistic.objects.first().date
+    #     return render(request, self.template_name, context={'object_list': statistic,
+    #                                                         'updated_on': updated_on,
+    #                                                         })
 
 
 # все новости
 class NewsListView(ListView):
-    model = Article
+    # model = Article
+    queryset = Article.objects.select_related('source').all()
     template_name = 'situation_report_app/news.html'
     ordering = ['-date']
     paginate_by = 5
@@ -51,15 +54,17 @@ class NewsListView(ListView):
         context['news_line'] = 'from all the World'
         return context
 
-    def post(self, request):
-        update_articles()
-        articles = Article.objects.order_by('-date')
-        return render(request, self.template_name, context={'object_list': articles})
+    # def post(self, request):
+    #     update_articles()
+    #     articles = Article.objects.order_by('-date')
+    #     return render(request, self.template_name, context={'object_list': articles})
 
 
 class PostListView(ListView):
-    model = Post
+    # model = Post
+    queryset = Post.objects.select_related('user').all()
     template_name = 'situation_report_app/posts.html'
+    paginate_by = 5
 
     def get_queryset(self):
 
@@ -78,7 +83,8 @@ class SourceListView(ListView):
 
 # просмотр всех статей от источника (вызывается с помощью pk)
 class SourceNewsListView(ListView):
-    model = Article
+    # model = Article
+    queryset = Article.objects.select_related('source').all()
     template_name = 'situation_report_app/source_news.html'
 
     def get(self, request, *args, **kwargs):
@@ -87,18 +93,20 @@ class SourceNewsListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        articles = Article.objects.filter(source=self.source_id)
-        context['source_name'] = articles[0].source
-        context['source_url'] = articles[0].source.url
+        articles = Article.objects.select_related('source').filter(source=self.source_id)[0].source
+        context['source_name'] = articles
+        context['source_url'] = articles.url
         return context
 
     def get_queryset(self):
-        return Article.objects.filter(source=self.source_id)
+        queryset = Article.objects.select_related('source').filter(source=self.source_id)
+        return queryset
 
 
 # DetailView для поста
 class PostDetailView(UserPassesTestMixin, DetailView):
-    model = Post
+    # model = Post
+    queryset = Post.objects.select_related('user').all()
     template_name = 'situation_report_app/post_detail.html'
 
     def test_func(self):
@@ -118,9 +126,10 @@ class PostDetailView(UserPassesTestMixin, DetailView):
 # CreateView for article
 class ArticleCreateView(CreateView):
     # form_class =
-    fields = '__all__'
-    # fields = 'url',
-    model = Article
+    queryset = Article.objects.select_related('source')
+    fields = ('name', 'url', 'source')
+    # model = Article
+    # fields = '__all__'
     success_url = reverse_lazy('covid_19:news')
     template_name = 'situation_report_app/add_article.html'
 
@@ -133,9 +142,10 @@ class ArticleCreateView(CreateView):
 
 # добавление поста
 class PostCreateView(LoginRequiredMixin, CreateView):
-    fields = '__all__'
+    # fields = '__all__'
     fields = ('name', 'text', 'image')
-    model = Post
+    # model = Post
+    queryset = Post.objects.select_related('user').all()
     success_url = reverse_lazy('covid_19:posts')
     template_name = 'situation_report_app/create_post.html'
 

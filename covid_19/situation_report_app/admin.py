@@ -25,4 +25,3 @@ admin.site.register(Article, ArticleAdmin)
 admin.site.register(Place)
 admin.site.register(Statistic)
 admin.site.register(Source)
-

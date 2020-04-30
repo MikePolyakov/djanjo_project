@@ -26,11 +26,18 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <form method="post" id="NewsForm">
-          {% csrf_token %}
-          {{ form.as_p}}
-          <button type="submit" class="btn btn-primary" id="sendMessageButton">Add news</button>
+
+<!--        <form method="post" id="NewsForm">-->
+          <form method="post">
+
+           {% csrf_token %}
+          {{ form.as_p }}
+
+<!--          <input type="submit" value="Add article">-->
+          <button type="submit" class="btn btn-primary" >Submit</button>
+
         </form>
+
       </div>
     </div>
   </div>
