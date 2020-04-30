@@ -2,6 +2,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
 from django.urls import reverse, reverse_lazy
 from django.core.mail import send_mail
+
+
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Article, Post, Statistic, Source
 from .forms import ContactForm
@@ -21,22 +23,33 @@ class StatisticListView(ListView):
             context['updated_on'] = Statistic.objects.first().date
         else:
             context['updated_on'] = datetime.date.today()
+
         return context
 
     def post(self, request):
         update_statistic()
         statistic = Statistic.objects.all()
         updated_on = Statistic.objects.first().date
+
         return render(request, self.template_name, context={'object_list': statistic,
-                                                            'updated_on': updated_on})
+                                                            'updated_on': updated_on,
+                                                            })
 
 
-# все новости с кнопкой обновления
+# все новости
 class NewsListView(ListView):
     model = Article
     template_name = 'situation_report_app/news.html'
     ordering = ['-date']
+    paginate_by = 5
+    # если хотим изменить имя  object_list
     # context_object_name = 'news_list'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['news_title'] = 'news'
+        context['news_line'] = 'from all the World'
+        return context
 
     def post(self, request):
         update_articles()
@@ -48,10 +61,19 @@ class PostListView(ListView):
     model = Post
     template_name = 'situation_report_app/posts.html'
 
+    def get_queryset(self):
+
+        # вариант без ApprovedManager
+        # return Post.objects.filter(is_approved=True)
+
+        # вариант с ApprovedManager
+        return Post.approved_objects.all()
+
 
 class SourceListView(ListView):
     model = Source
     template_name = 'situation_report_app/sources.html'
+    paginate_by = 5
 
 
 # просмотр всех статей от источника (вызывается с помощью pk)

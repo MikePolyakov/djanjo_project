@@ -7,10 +7,10 @@
 {% block update_button %}
 <form method="post">
      {% csrf_token %}
-      <button class="btn btn-danger"
-              type="submit">
-          UPDATE
-      </button>
+<!--      <button class="btn btn-danger"-->
+<!--              type="submit">-->
+<!--          UPDATE-->
+<!--      </button>-->
  </form>
 {% endblock %}
 
@@ -51,12 +51,14 @@
                     </tr>
                     {% for item in object_list %}
                     <tr>
+
                         <td>{{item.country_name}}</td>
                         <td> {{item.total_cases}}</td>
                         <td>{{item.new_cases}}</td>
                         <td>{{item.total_deaths}}</td>
                         <td> {{item.new_deaths}}</td>
                         <td>{{item.total_recovered}}</td>
+
                     </tr>
                     {% endfor %}
             </table>

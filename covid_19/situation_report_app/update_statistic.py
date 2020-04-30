@@ -5,7 +5,6 @@ from situation_report_app.models import Statistic, Place
 
 
 def update_statistic():
-
     # обновляем статистику
     # be careful !!!
     Statistic.objects.all().delete()
@@ -17,8 +16,10 @@ def update_statistic():
 
     # table_tag = soup.find('div', class_="table-responsive")
     # tbody_tag = table_tag.find('tbody')
+
     tbody_tag = soup.find('tbody')
     row = tbody_tag.find_all('tr')
+    del row[:6]
 
     country_added = 0
     for each in row:
@@ -27,11 +28,12 @@ def update_statistic():
         for td_one in td_all:
             if tag_number == 1:
                 place = td_one.text.strip()
-
-                if not Place.objects.filter(place_name=place).exists():
-                    if place != 'Total:':
-                        Place.objects.create(place_name=place)
-                        country_added += 1
+                print(f'{place}, {len(place)}')
+                if len(place) != 0:
+                    if not Place.objects.filter(place_name=place).exists():
+                        if place != 'Total:':
+                            Place.objects.create(place_name=place)
+                            country_added += 1
 
             elif tag_number == 2:
                 total_cases = td_one.text
@@ -44,18 +46,20 @@ def update_statistic():
             elif tag_number == 6:
                 total_recovered = td_one.text
             tag_number += 1
-        print(f'{place}, total cases {total_cases}')
+        print(f'{place}, {len(place)}, total cases {total_cases}')
+
         today = datetime.today()
         # if not Statistic.objects.filter(country_name=Place.objects.filter(
         #         place_name=place).first(), date=today).exists():
-        Statistic.objects.create(country_name=Place.objects.filter(
-             place_name=place).first(),
-                                      date=today,
-                                      total_cases=total_cases,
-                                      new_cases=new_cases,
-                                      total_deaths=total_death,
-                                      new_deaths=new_death,
-                                      total_recovered=total_recovered)
+        if len(place) != 0:
+            Statistic.objects.create(country_name=Place.objects.filter(
+                place_name=place).first(),
+                 date=today,
+                 total_cases=total_cases,
+                 new_cases=new_cases,
+                 total_deaths=total_death,
+                 new_deaths=new_death,
+                 total_recovered=total_recovered)
     total = Statistic.objects.all()
 
     print(f'{country_added} new countries added')
