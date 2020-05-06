@@ -14,6 +14,8 @@ class Command(BaseCommand):
         for i in range(count):
             p = (i/count)*100
             print(f'{i}) {p} %')
+            new_post = mixer.blend(Post)
+            print(new_post)
             mixer.blend(Post)
 
         print('end')

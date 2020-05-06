@@ -24,8 +24,10 @@ SECRET_KEY = 'x6-r5m55ms_s35vc=k6h4^^7vi41tl908ktjgqtk$0+$3wl9!)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = False
 
 ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,7 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'situation_report_app',
     'users_app',
-    'debug_toolbar'
+    'debug_toolbar',
+    'rest_framework',
+    # cleanup must be last
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +72,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'situation_report_app.context_processors.get_currentYear',
+                'situation_report_app.context_processors2.get_button_1',
+                'situation_report_app.context_processors3.get_button_2',
             ],
         },
     },
@@ -79,11 +86,22 @@ WSGI_APPLICATION = 'covid_19.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
+# бд для локальной работы
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+
+    # бд для сервера django.db.backends.postgresql
+    # 'default': {
+    #         'NAME': 'sitedb',
+    #         'ENGINE': 'django.db.backends.postgresql',
+    #         'USER': 'django',
+    #         'PASSWORD': 'nu052020',
+    #         'HOST': 'localhost'
+    #     }
 }
+
 
 
 # Password validation
@@ -125,6 +143,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# STATIC_ROOT = os.path.join('static')
 
 MEDIA_URL = '/media/'
 
@@ -152,3 +171,11 @@ INTERNAL_IPS = [
     '127.0.0.1',
     # ...
 ]
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
