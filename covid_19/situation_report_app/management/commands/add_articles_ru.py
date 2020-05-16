@@ -71,10 +71,10 @@ class Command(BaseCommand):
 
             page_counter += 1
 
-            # artificial limit 12 articles
-            if page_counter > 1:
-                next_button = False
-            # artificial limit 12 articles
+            # artificial limit 1page=12 articles
+            # if page_counter > 1:
+            #     next_button = False
+            # artificial limit 1page=12 articles
 
         total_articles = Article.objects.all()
         print(f'added {articles_added}')

@@ -41,16 +41,16 @@ class Place(models.Model):
 
 
 class Source(models.Model):
-    name = models.CharField(max_length=32)
-    url = models.CharField(max_length=32, unique=True)
+    name = models.CharField(max_length=128)
+    url = models.CharField(max_length=256, unique=True)
 
     def __str__(self):
         return self.name
 
 
 class Article(Date):
-    name = models.CharField(max_length=32)
-    url = models.CharField(max_length=128)
+    name = models.CharField(max_length=256)
+    url = models.CharField(max_length=256)
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -59,11 +59,11 @@ class Article(Date):
 
 class Statistic(Date):
     country_name = models.ForeignKey(Place, on_delete=models.CASCADE)
-    total_cases = models.CharField(max_length=8, null=True)
-    new_cases = models.CharField(max_length=8, null=True)
-    total_deaths = models.CharField(max_length=8, null=True)
-    new_deaths = models.CharField(max_length=8, null=True)
-    total_recovered = models.CharField(max_length=8, null=True)
+    total_cases = models.CharField(max_length=32, null=True)
+    new_cases = models.CharField(max_length=32, null=True)
+    total_deaths = models.CharField(max_length=32, null=True)
+    new_deaths = models.CharField(max_length=32, null=True)
+    total_recovered = models.CharField(max_length=32, null=True)
 
     # def __str__(self):
     #     return self.name
@@ -72,7 +72,7 @@ class Statistic(Date):
 class Post(IsApprovedMixin):
     objects = models.Manager()
     approved_objects = ApprovedManager()
-    name = models.CharField(max_length=32, unique=True)
+    name = models.CharField(max_length=64, unique=True)
     text = models.TextField()
     create = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='posts', null=True, blank=True)
