@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+<!-- Page Header -->
+{% block page_header %}
+<header class="masthead" style="background-image: url('#')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>User profile</h1>
+                    <h3>for {{ object.username }}</h3>
+                    <span class="subheading"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+<!-- Main Content -->
+{% block content %}
+your token:
+{% if object.auth_token %} {{object.auth_token}} {% else %} не создан {% endif %}
+
+<form action="{% url 'users:update_token' %}">
+    <button type="submit" class="btn btn-primary">Update token</button>
+</form>
+<hr>
+
+
+{% endblock %}

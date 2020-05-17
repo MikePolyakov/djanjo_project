@@ -10,7 +10,7 @@ class OpenViewsTest(TestCase):
         self.client = Client()
         self.fake = Faker()
 
-    # get зарос
+    # get запрос
     def test_statuses_index(self):
         response = self.client.get('/')
         print('test_statuses')
@@ -104,3 +104,23 @@ class ViewsTest(TestCase):
         self.client.login(username='test_user5', password='test1234567')
         response = self.client.get('/users/pass_change/')
         self.assertEqual(response.status_code, 200)
+
+
+# API tests without login
+class ApiOpenViewsTest(TestCase):
+
+    # get запрос
+    def test_places_api_statuses(self):
+        response = self.client.get('/api/v0/places/')
+        print('places_api_statuses')
+        self.assertEqual(response.status_code, 200)
+
+    def test_sources_api_statuses(self):
+        response = self.client.get('/api/v0/sources/')
+        print('sources_api_statuses')
+        self.assertEqual(response.status_code, 200)
+
+    def test_articles_api_statuses(self):
+        response = self.client.get('/api/v0/articles/')
+        print('articles_api_statuses')
+        self.assertEqual(response.status_code, 403)
