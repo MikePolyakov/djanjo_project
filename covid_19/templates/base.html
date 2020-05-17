@@ -54,6 +54,7 @@
                 <a class="nav-link" href="{% url 'covid_19:create_post' %}">Create Post</a>
                 <a class="nav-link" href="{% url 'covid_19:add_article' %}">Add news</a>
                 <a class="nav-link" href="{% url 'users:pass_change' %}">Change Password</a>
+                <a class="nav-link" href="{% url 'users:profile' pk=user.pk %}">Profile</a>
                 <a class="nav-link" href="{% url 'covid_19:contact' %}">Contact us</a>
                 <a class="nav-link" href="{% url 'users:logout' %}">Logout</a>
             </li>

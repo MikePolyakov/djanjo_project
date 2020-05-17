@@ -2,8 +2,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
 from django.urls import reverse, reverse_lazy
 from django.core.mail import send_mail
-
-
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Article, Post, Statistic, Source
 from .forms import ContactForm
