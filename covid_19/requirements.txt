@@ -9,7 +9,7 @@ django-debug-toolbar==2.2
 Faker==0.9.1
 idna==2.9
 mixer==6.1.3
-Pillow==7.0.0
+Pillow==8.1.1
 python-dateutil==2.8.1
 pytz==2019.3
 requests==2.23.0
